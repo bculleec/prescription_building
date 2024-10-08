@@ -1,4 +1,4 @@
-from flask import Flask, request, send_file
+from flask import Flask, request, send_file, render_template
 from flask_cors import CORS, cross_origin
 import rasterio
 import prescription_build
@@ -12,7 +12,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route("/")
 def status_on():
-    return "listening"
+    return render_template('./index.html')
 
 @app.route('/export_prescription/<num_subdivisions>', methods = ['POST', 'GET'])
 def export_prescription(num_subdivisions):

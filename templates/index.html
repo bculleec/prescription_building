@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editable Tables</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            margin: 20px;
+            width: 500px;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<h2>Upload TIFF Raster</h2>
+<input type="file" id="fileInput" accept=".tif, .tiff" />
+<button id="uploadButton">Upload</button>
+<!-- <br>
+<p>Number of divisions</p>
+<input type="text" id="numSubdivisions">
+<button id="buildTablesButton">Build Tables</button> -->
+<div id="uploadStatus"></div>
+
+<h2>Zone Info</h2>
+<table id="table1">
+    <thead>
+        <tr>
+            <th>Zone ID</th>
+            <th>Min Value in Zone</th>
+            <th>Max Value in Zone</th>
+            <th>Average value in zone</th>
+            <th>Total Acres</th>
+            <th>Lbs/Ac Product in Script</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>1.0</td>
+            <td>5.0</td>
+            <td>2.5</td>
+            <td>5.0</td>
+            <td contenteditable="true">1.0</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>5.0</td>
+            <td>10.0</td>
+            <td>7.5</td>
+            <td>10.0</td>
+            <td contenteditable="true">1.0</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>Summary</h2>
+<table id="table2">
+    <thead>
+        <tr>
+            <th>Description</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Average rate (lbs/ac) of fertilizer</td>
+            <td contenteditable="true">1.0</td>
+        </tr>
+        <tr>
+            <td>Total product needed for script (kg/ac)</td>
+            <td contenteditable="true">1.0</td>
+        </tr>
+        <tr>
+            <td>Min Rate</td>
+            <td contenteditable="true">1.0</td>
+        </tr>
+        <tr>
+            <td>Max Rate</td>
+            <td contenteditable="true">1.0</td>
+        </tr>
+        <tr>
+            <td>Total Acres</td>
+            <td>1.0</td>
+        </tr>
+    </tbody>
+</table>
+<button id="exportButton">Export</button>
+
+<script src="https://cdn.jsdelivr.net/npm/geotiff"></script>
+<script>
+  console.log(GeoTIFF);
+</script>
+<script src="{{ url_for('static', filename='js/myscript.js') }}"></script>
+</body>
+</html>
