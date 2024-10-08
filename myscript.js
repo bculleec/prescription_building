@@ -328,7 +328,8 @@ document.getElementById('exportButton').addEventListener('click', () => {
     
     zones = []
     zone = {}
-
+    let filename = document.querySelectorAll('export_filename').innerText
+    
     sourceRows.forEach((row, index) => {
         const zone_id = parseFloat(row.cells[0].innerText)
         const min_val = parseFloat(row.cells[1].innerText)
@@ -343,7 +344,8 @@ document.getElementById('exportButton').addEventListener('click', () => {
             "Max Val":max_val,
             "Avg Val":avg_val,
             "Total Acres":total_acres,
-            "Value":value
+            "Value":value,
+            "Filename":filename
         }
         zones.push(zone)
         
@@ -357,6 +359,8 @@ document.getElementById('exportButton').addEventListener('click', () => {
 
     sending_file = raster_file
     sending_file.set('file2', blob, 'file2'); 
+
+    
 
     const response = fetch("/export_prescription/4", {
         method: "POST",
@@ -372,7 +376,7 @@ document.getElementById('exportButton').addEventListener('click', () => {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'prescription.zip';
+        a.download = filename + '.zip';
         document.body.appendChild(a); 
         a.click(); 
         a.remove(); 

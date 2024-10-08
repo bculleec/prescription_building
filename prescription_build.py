@@ -166,6 +166,8 @@ def export_shapefile(raster_path, zone_info):
 
     i = 0
 
+    filename = zone_info[1]['Filename']
+
     for zone in zone_info:
         i+=1
         # print(zone)
@@ -194,14 +196,14 @@ def export_shapefile(raster_path, zone_info):
                 'properties': {'Tgt_Rate': 'float'},
             }
         
-        if os.path.exists("./my_shp.shp"):
+        if os.path.exists(f"./{filename}.shp"):
             # Append to the existing shapefile
             mode = 'a'
         else:
             # Create a new shapefile
             mode = 'w'
 
-        with fiona.open(f"./my_shp.shp", mode, 'ESRI Shapefile', schema,crs='epsg:4326',) as c:
+        with fiona.open(f"./{filename}.shp", mode, 'ESRI Shapefile', schema,crs='epsg:4326',) as c:
             ## If there are multiple geometries, put the "for" loop here
             for geom in zone_poly:
                 c.write({
@@ -210,7 +212,7 @@ def export_shapefile(raster_path, zone_info):
                 })
     
     
-    prefix = 'my_shp'
+    prefix = filename
     output_zip = 'prescription.zip'
 
 
