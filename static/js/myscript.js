@@ -57,7 +57,7 @@ function syncMinMax(sourceTable, targetTable) {
     const targetRows = targetTable.querySelectorAll('tbody tr');
 
     const avg_rate = parseFloat(targetRows[0].cells[1].innerText);
-    const total_product = parseFloat(targetRows[1].cells[1].innerText);
+    const total_product = parseFloat(targetRows[1].cells[1].innerText) * 2.20462;
     new_min_rate = parseFloat(targetRows[2].cells[1].innerText);
     new_max_rate = parseFloat(targetRows[3].cells[1].innerText);
     const total_acres = parseFloat(targetRows[4].cells[1].innerText);
@@ -79,6 +79,7 @@ function syncMinMax(sourceTable, targetTable) {
 
 
         })
+        
         if ((test_total_product < total_product - 0.1) ||(test_total_product > total_product + 0.1)){
             console.log("Total product has been changed")
 
