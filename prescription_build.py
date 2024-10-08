@@ -109,7 +109,6 @@ import math
 import zipfile
 
 
-from tkinter import *
 import fiona
 import pyproj
 from shapely.ops import transform
