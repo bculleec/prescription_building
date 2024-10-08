@@ -122,6 +122,42 @@ def export_shapefile(raster_path, zone_info):
     
     raster = rasterio.open(raster_path)
 
+    print("Raster CRS:")
+    print(raster.crs)
+
+    # Reproject the raster to 4326
+    # Reproject to 4326 first
+    dstCrs = {'init': 'EPSG:4326'}
+    srcCrs = raster.crs
+
+    #calculate transform array and shape of reprojected raster
+    transform, width, height = calculate_default_transform(
+        raster.crs, dstCrs, raster.width, raster.height, *raster.bounds)
+
+    kwargs = raster.meta.copy()
+    kwargs.update({
+            'crs': dstCrs,
+            'transform': transform,
+            'width': width,
+            'height': height
+        })
+    #open destination raster
+    dstRst = rasterio.open('./reprojected.tiff', 'w', **kwargs)
+    #reproject and save raster band data
+    for i in range(1, raster.count + 1):
+        reproject(
+            source=rasterio.band(raster, i),
+            destination=rasterio.band(dstRst, i),
+            #src_transform=raster.transform,
+            src_crs=raster.crs,
+            #dst_transform=transform,
+            dst_crs=dstCrs,
+            resampling=Resampling.nearest)
+    #close destination raster
+    dstRst.close()
+
+    raster = rasterio.open('./reprojected.tiff')
+
     nodata = raster.meta['nodata']
 
     band1 = raster.read(1)
@@ -132,7 +168,7 @@ def export_shapefile(raster_path, zone_info):
 
     for zone in zone_info:
         i+=1
-        print(zone)
+        # print(zone)
 
         # Grab the min and max value
         zone_min_value = zone['Min Val']
@@ -148,7 +184,7 @@ def export_shapefile(raster_path, zone_info):
             if value != 0:
                 # convert geojson to shapely geometry
                 geom = shape(coords)
-                print(geom)
+                # print(geom)
 
                 # Reproject geometry to 4326
                 zone_poly.append(geom)
@@ -165,7 +201,7 @@ def export_shapefile(raster_path, zone_info):
             # Create a new shapefile
             mode = 'w'
 
-        with fiona.open(f"./my_shp.shp", mode, 'ESRI Shapefile', schema) as c:
+        with fiona.open(f"./my_shp.shp", mode, 'ESRI Shapefile', schema,crs='epsg:4326',) as c:
             ## If there are multiple geometries, put the "for" loop here
             for geom in zone_poly:
                 c.write({

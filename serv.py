@@ -48,9 +48,17 @@ def export_prescription(num_subdivisions):
 
     raster.close()
 
-    os.remove(shape_response_path)
-    os.remove('demo.tiff')
-    os.remove('export.tiff')
+    if os.path.exists(shape_response_path):
+        os.remove(shape_response_path)
+    
+    if os.path.exists('demo.tiff'):
+        os.remove('demo.tiff')
+    
+    if os.path.exists('export.tiff'):
+        os.remove('export.tiff')
+    
+    if os.path.exists('reprojected.tiff'):
+        os.remove('reprojected.tiff')
 
     return send_file(return_data, mimetype='application/zip')
 

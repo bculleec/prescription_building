@@ -254,7 +254,11 @@ document.getElementById('uploadButton').addEventListener('click', () => {
             division_low_bound = responseData['Min Value in zone'][i]
             division_high_bound = responseData['Max Value in zone'][i]
             min_cell.innerText = (division_low_bound).toFixed(2)
+            if (i ===0 )
+                min_cell.innerText = parseFloat((division_low_bound).toFixed(2)) - 0.01
             max_cell.innerText = (division_high_bound).toFixed(2)
+            if (i ===3) // Eventually change to the last value in the number of subdivisions (numSubdivisions - 1)
+                max_cell.innerText = parseFloat((division_high_bound).toFixed(2)) + 0.01
             zone_rate.contentEditable = true;
 
             // Find the average value per zone
