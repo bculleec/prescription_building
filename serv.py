@@ -80,4 +80,4 @@ def get_post_raster_data(num_subdivisions):
     return (z.to_dataframe().to_json())
 
 if __name__ == "__main__":
-    app.run(debug=True, port=9090)
+    app.run(debug=True, port=8080)
