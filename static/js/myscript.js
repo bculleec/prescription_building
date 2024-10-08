@@ -216,7 +216,7 @@ document.getElementById('uploadButton').addEventListener('click', () => {
 
         raster_file = formData
 
-        const response = await fetch("http://localhost:9090/post_raster_data/4", {
+        const response = await fetch("/post_raster_data/4", {
             method: "POST",
             body: formData
         });
@@ -293,7 +293,7 @@ document.getElementById('uploadButton').addEventListener('click', () => {
             // We can use these results to build the initial table
 
             // Send the file over to python
-            // fetch("http://localhost:9090/post_raster_data", {
+            // fetch("/post_raster_data", {
             //     method: "POST",
             //     body: JSON.stringify({
             //       userId: 1,
@@ -358,7 +358,7 @@ document.getElementById('exportButton').addEventListener('click', () => {
     sending_file = raster_file
     sending_file.set('file2', blob, 'file2'); 
 
-    const response = fetch("http://localhost:9090/export_prescription/4", {
+    const response = fetch("/export_prescription/4", {
         method: "POST",
         body: sending_file
     })
