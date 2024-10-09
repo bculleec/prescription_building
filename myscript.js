@@ -256,6 +256,8 @@ document.getElementById('uploadButton').addEventListener('click', () => {
             max_cell.innerText = (division_high_bound).toFixed(2)
             zone_rate.contentEditable = true;
 
+            zone_rate.bgColor = "gray"
+
             // Find the average value per zone
             
             
@@ -329,7 +331,7 @@ document.getElementById('exportButton').addEventListener('click', () => {
     zones = []
     zone = {}
     let filename = document.querySelectorAll('export_filename').innerText
-    
+
     sourceRows.forEach((row, index) => {
         const zone_id = parseFloat(row.cells[0].innerText)
         const min_val = parseFloat(row.cells[1].innerText)
