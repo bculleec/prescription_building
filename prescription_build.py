@@ -367,7 +367,8 @@ def read_zones(raster_path, num_zones):
                 zone_poly.append(geom)
                 zone_area_total += geom.area 
 
-        zone_area_total*= 0.000247105 * 0.5
+        # don't need to divide by 2
+        zone_area_total*= 0.000247105 # * 0.5
 
 
         # schema = {
