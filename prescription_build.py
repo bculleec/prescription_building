@@ -237,37 +237,49 @@ def read_zones(raster_path, num_zones):
     """Should return a list of zones given a raster path and the number of zones"""
     raster = rasterio.open(raster_path)
     
-    # Reproject to 4326 first
-    # dstCrs = {'init': 'EPSG:4326'}
-    # srcCrs = raster.crs
+    print('RASTER CRS:')
+    print('======')
+    print(raster.crs)
+    if (raster.crs == 'EPSG:26917'):
+        print('We good')
+    else:
+        print('Need to reproject')
 
-    # #calculate transform array and shape of reprojected raster
-    # transform, width, height = calculate_default_transform(
-    #     raster.crs, dstCrs, raster.width, raster.height, *raster.bounds)
+        # Reproject to 4326 first
+        dstCrs = {'init': 'EPSG:26917'}
+        srcCrs = raster.crs
 
-    # kwargs = raster.meta.copy()
-    # kwargs.update({
-    #         'crs': dstCrs,
-    #         'transform': transform,
-    #         'width': width,
-    #         'height': height
-    #     })
-    # #open destination raster
-    # dstRst = rasterio.open('./reprojected.tiff', 'w', **kwargs)
-    # #reproject and save raster band data
-    # for i in range(1, raster.count + 1):
-    #     reproject(
-    #         source=rasterio.band(raster, i),
-    #         destination=rasterio.band(dstRst, i),
-    #         #src_transform=raster.transform,
-    #         src_crs=raster.crs,
-    #         #dst_transform=transform,
-    #         dst_crs=dstCrs,
-    #         resampling=Resampling.nearest)
-    # #close destination raster
-    # dstRst.close()
+        #calculate transform array and shape of reprojected raster
+        transform, width, height = calculate_default_transform(
+            raster.crs, dstCrs, raster.width, raster.height, *raster.bounds)
 
-    # raster = rasterio.open('./reprojected.tiff')
+        kwargs = raster.meta.copy()
+        kwargs.update({
+                'crs': dstCrs,
+                'transform': transform,
+                'width': width,
+                'height': height
+            })
+        #open destination raster
+        dstRst = rasterio.open('./reprojected.tiff', 'w', **kwargs)
+        #reproject and save raster band data
+        for i in range(1, raster.count + 1):
+            reproject(
+                source=rasterio.band(raster, i),
+                destination=rasterio.band(dstRst, i),
+                #src_transform=raster.transform,
+                src_crs=raster.crs,
+                #dst_transform=transform,
+                dst_crs=dstCrs,
+                resampling=Resampling.nearest)
+        #close destination raster
+        dstRst.close()
+
+        
+
+        raster = rasterio.open('./reprojected.tiff')
+
+    
 
     nodata = raster.meta['nodata']
 
@@ -390,7 +402,10 @@ def read_zones(raster_path, num_zones):
                           average_value = zone_avg_value,
                           area = zone_area_total
                           ))
-    
+    raster.close()
+    if os.path.exists('reprojected.tiff'):
+        os.remove('reprojected.tiff')
+
     return ZoneGroup(zones=zones)
 
 def prescription_from_zones(zone_group):
