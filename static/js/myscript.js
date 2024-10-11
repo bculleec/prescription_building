@@ -329,11 +329,21 @@ document.getElementById('exportButton').addEventListener('click', () => {
 
     // Grab all values from table
     sourceRows = document.querySelectorAll('#table1 tbody tr');
+    sourceRows2 = document.querySelectorAll('#table2 tbody tr');
+
+    naming_avg = sourceRows2[0].cells[1].innerText
+    naming_total_product = sourceRows2[1].cells[1].innerText
+    naming_total_acres = sourceRows2[4].cells[1].innerText
     
     
     zones = []
     zone = {}
-    let filename = document.getElementById("exportFilename").value
+    let filename = document.getElementById("exportFilename").value + '_' + Math.round(parseFloat(naming_avg)) + 'lbsAve_' + Math.round(parseFloat(naming_total_product)) + 'kgTotal_' + Math.round(parseFloat(naming_total_acres)) + 'ac'
+
+    
+    // zones = []
+    // zone = {}
+    // let filename = document.getElementById("exportFilename").value
 
     sourceRows.forEach((row, index) => {
         const zone_id = parseFloat(row.cells[0].innerText)
